@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InboxDeduct - Home</title>
+    <title>Tax Deduct Tracker - Demo</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -15,104 +15,149 @@
                  <button id="sidebar-toggle-btn" class="icon-button header-icon-button" title="Toggle Sidebar">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="logo">InboxDeduct</div>
+                <div class="logo">Tax Deduct Tracker</div> <!-- Updated App Name -->
             </div>
             <nav>
                 <button id="home-button" class="nav-button active">
-                    <i class="fas fa-home"></i> Home
+                    <i class="fas fa-house"></i> Home
                 </button>
-                </nav>
+            </nav>
             <div class="user-info">
                 <span>John Doe</span>
-                <i class="fas fa-user-circle"></i>
+                <i class="fas fa-circle-user"></i>
             </div>
         </header>
 
         <div class="main-layout">
             <aside class="sidebar" id="app-sidebar">
-                <h3>Past Scans</h3>
+                <h3>Analysis Periods</h3> <!-- Updated Sidebar Title -->
                 <ul id="past-scans-list">
-                    </ul>
+                    <!-- Populated by JS -->
+                </ul>
             </aside>
 
             <main class="main-content">
+                <!-- HOME VIEW -->
                 <div id="home-view">
-                    <h2 id="main-title">Home</h2>
-                    <div class="scan-settings-container">
-                        <div class="scan-settings">
-                            <h3>Scan Settings</h3>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" id="email" value="john.doe@example.com">
-                                <button id="verify-email-btn">Verify Email</button>
-                            </div>
-                            <div class="form-group">
-                                <label for="start-date">Start Date:</label>
-                                <input type="date" id="start-date">
-                            </div>
-                            <div class="form-group">
-                                <label for="end-date">End Date:</label>
-                                <input type="date" id="end-date">
+                    <h2 id="main-title">Data Sources & Settings</h2> <!-- Updated Title -->
+
+                    <div class="data-sources-container">
+                        <!-- Email Settings Section -->
+                        <div class="email-settings-section">
+                            <h3><i class="fas fa-envelope"></i> Email Connection</h3>
+                            <div class="email-settings">
+                                <div class="email-inputs">
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" value="john.doe@example.com" placeholder="Enter your Gmail address">
+                                        <button id="verify-email-btn">Verify Email</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="start-date">Start Date:</label>
+                                        <input type="date" id="start-date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="end-date">End Date:</label>
+                                        <input type="date" id="end-date">
+                                    </div>
+                                </div>
+                                <div class="email-status" id="email-status-section">
+                                     <i id="email-status-icon" class="fas fa-envelope fa-4x status-icon-unverified"></i>
+                                     <p id="email-status-text">EMAIL NOT VERIFIED</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="email-status" id="email-status-section">
-                             <i id="email-status-icon" class="fas fa-envelope fa-4x status-icon-unverified"></i>
-                             <p id="email-status-text">EMAIL NOT VERIFIED</p>
+
+                        <!-- File Upload Section -->
+                        <div class="file-upload-section">
+                            <h3><i class="fas fa-file-arrow-up"></i> File Uploads</h3>
+                            <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: var(--spacing-md);">Upload statements, receipts, and other documents (PDF, CSV, etc.). The AI will attempt to extract relevant deductions.</p>
+                            <div class="file-upload-area">
+                                <label for="bank-statement-upload" class="file-upload-label btn-secondary">
+                                    <i class="fas fa-landmark"></i> Upload Bank Statements
+                                </label>
+                                <input type="file" id="bank-statement-upload" multiple accept=".pdf,.csv">
+                                <ul id="uploaded-bank-statements-list" class="upload-list">
+                                    <li class="placeholder">No bank statements uploaded yet.</li>
+                                    <!-- Simulated uploads appear here -->
+                                </ul>
+                            </div>
+                             <div class="file-upload-area">
+                                <label for="receipt-upload" class="file-upload-label btn-secondary">
+                                    <i class="fas fa-receipt"></i> Upload Receipts/Other Docs
+                                </label>
+                                <input type="file" id="receipt-upload" multiple accept=".pdf,.jpg,.png,.jpeg,.csv">
+                                 <ul id="uploaded-receipts-list" class="upload-list">
+                                     <li class="placeholder">No receipts or other documents uploaded yet.</li>
+                                     <!-- Simulated uploads appear here -->
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
                     <div class="action-buttons">
-                         <button id="scan-button" disabled>Run New Scan</button>
+                         <button id="analyze-button" class="btn-primary" disabled><i class="fas fa-wand-magic-sparkles"></i> Analyze Data & Find Deductions</button> <!-- Updated Button -->
                     </div>
                 </div>
 
+                <!-- ANALYSIS RESULTS VIEW (Initially Hidden) -->
                 <div id="scan-results-view" style="display: none;">
                     <div class="results-header">
-                         <h2 id="scan-title">Scan Results</h2>
+                         <h2 id="scan-title">Analysis Results</h2> <!-- Updated Title -->
                          <div class="results-main-actions">
-                             <button id="undo-button" disabled><i class="fas fa-undo"></i> Undo (<span id="undo-count">0</span>)</button>
-                             <button id="export-excel-btn"><i class="fas fa-file-excel"></i> Export Excel</button>
-                             <button id="download-emails-btn"><i class="fas fa-file-archive"></i> Download Emails/Attachments</button>
+                             <button id="undo-button" class="btn-accent" disabled><i class="fas fa-rotate-left"></i> Undo (<span id="undo-count">0</span>)</button>
+                             <button id="export-excel-btn" class="btn-secondary"><i class="fas fa-file-excel"></i> Export Excel</button>
+                             <button id="download-sources-btn" class="btn-secondary"><i class="fas fa-file-zipper"></i> Download Source Docs</button> <!-- Updated Button -->
                          </div>
                     </div>
                      <div class="results-layout">
+                        <!-- Consolidated Details Panel -->
                         <div class="results-left-panel">
-                            <div class="attachments-section">
-                                <h3>Attachments</h3>
-                                <ul id="attachments-list">
-                                    <li>No item selected</li>
-                                </ul>
-                            </div>
-                            <div class="email-view-section">
-                                <h3>Email View (<span id="selected-email-key">None</span>)</h3>
-                                <div id="email-content">
-                                    <p>Select a deductible item from the table to view the corresponding email.</p>
+                            <div class="details-panel" id="source-details-panel">
+                                <h3 id="detail-header">
+                                    <i class="fas fa-info-circle"></i> Details
+                                    <span class="detail-source-info">Select Item</span>
+                                </h3>
+                                <div id="detail-content">
+                                    <p class="placeholder-text">Select an item from the table to view details.</p>
+                                    <!-- Populated by JS based on selected item type -->
+                                </div>
+                                <div class="detail-attachments-section">
+                                    <h4><i class="fas fa-paperclip"></i> Related Files/Attachments</h4>
+                                    <ul id="detail-attachments-list">
+                                        <li>No item selected</li>
+                                        <!-- Populated by JS -->
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                        <!-- Table Panel -->
                         <div class="results-right-panel">
                             <div class="table-header">
-                                <h3>Deductibles</h3>
-                                </div>
+                                <h3><i class="fas fa-list-check"></i> Potential Deductions</h3> <!-- Updated Title -->
+                            </div>
                             <div class="table-container">
-                                <table id="deductibles-table">
+                                <table id="deductions-table">
                                     <thead>
                                         <tr>
                                             <th class="editable-col">Description</th>
                                             <th class="editable-col">Amount</th>
                                             <th class="editable-col">Date</th>
                                             <th class="editable-col">Category</th>
-                                            <th>Email Key</th>
+                                            <th class="source-type-col">Source Type</th> <!-- New Column -->
+                                            <th>Source Ref</th> <!-- Renamed from Email Key -->
                                             <th>Attachment</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        </tbody>
+                                        <!-- Populated by JS -->
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                     </div>
+                </div>
             </main>
         </div>
     </div>
