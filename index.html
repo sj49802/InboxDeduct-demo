@@ -12,107 +12,138 @@
     <div class="app-container">
         <header class="app-header">
             <div class="header-left">
-                 <button id="sidebar-toggle-btn" class="icon-button header-icon-button" title="Toggle Sidebar">
+                 <button id="sidebar-toggle-btn" class="icon-button header-icon-button" title="Toggle Sidebar" aria-label="Toggle Sidebar Menu" aria-expanded="false" aria-controls="app-sidebar">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="logo">Tax Deduct Tracker</div> <!-- Updated App Name -->
             </div>
-            <nav>
+            <nav class="header-nav">
                 <button id="home-button" class="nav-button active">
-                    <i class="fas fa-house"></i> Home
+                    <i class="fas fa-house"></i> <span class="nav-text">Home</span>
                 </button>
+                <!-- Add other nav items here if needed -->
             </nav>
             <div class="user-info">
-                <span>John Doe</span>
-                <i class="fas fa-circle-user"></i>
+                <span class="user-name">John Doe</span>
+                <i class="fas fa-circle-user user-icon"></i>
             </div>
         </header>
 
-        <div class="main-layout">
-            <aside class="sidebar" id="app-sidebar">
-                <h3>Analysis Periods</h3> <!-- Updated Sidebar Title -->
+        <div class="main-layout" id="main-layout">
+            <aside class="sidebar" id="app-sidebar" aria-hidden="true">
+                <div class="sidebar-header">
+                    <h3>Analysis Periods</h3>
+                    <button id="sidebar-close-btn" class="icon-button sidebar-close-button" title="Close Sidebar" aria-label="Close Sidebar Menu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <ul id="past-scans-list">
                     <!-- Populated by JS -->
+                     <li class="placeholder">No analysis periods yet.</li>
                 </ul>
             </aside>
+            <!-- Overlay for mobile sidebar -->
+            <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-            <main class="main-content">
+            <main class="main-content" id="main-content">
                 <!-- HOME VIEW -->
                 <div id="home-view">
-                    <h2 id="main-title">Data Sources & Settings</h2> <!-- Updated Title -->
+                    <h2 id="main-title">Data Sources & Settings</h2>
 
                     <div class="data-sources-container">
                         <!-- Email Settings Section -->
-                        <div class="email-settings-section">
+                        <div class="settings-card email-settings-section">
                             <h3><i class="fas fa-envelope"></i> Email Connection</h3>
                             <div class="email-settings">
                                 <div class="email-inputs">
                                     <div class="form-group">
                                         <label for="email">Email:</label>
-                                        <input type="email" id="email" value="john.doe@example.com" placeholder="Enter your Gmail address">
-                                        <button id="verify-email-btn">Verify Email</button>
+                                        <input type="email" id="email" value="john.doe@example.com" placeholder="Enter Gmail">
+                                        <button id="verify-email-btn" class="btn-accent">Verify</button>
                                     </div>
                                     <div class="form-group">
-                                        <label for="start-date">Start Date:</label>
+                                        <label for="start-date">Start:</label>
                                         <input type="date" id="start-date">
                                     </div>
                                     <div class="form-group">
-                                        <label for="end-date">End Date:</label>
+                                        <label for="end-date">End:</label>
                                         <input type="date" id="end-date">
                                     </div>
                                 </div>
                                 <div class="email-status" id="email-status-section">
-                                     <i id="email-status-icon" class="fas fa-envelope fa-4x status-icon-unverified"></i>
-                                     <p id="email-status-text">EMAIL NOT VERIFIED</p>
+                                     <i id="email-status-icon" class="fas fa-envelope fa-3x status-icon-unverified"></i> <!-- Reduced size -->
+                                     <p id="email-status-text">NOT VERIFIED</p> <!-- Simplified text -->
                                 </div>
                             </div>
                         </div>
 
                         <!-- File Upload Section -->
-                        <div class="file-upload-section">
+                        <div class="settings-card file-upload-section">
                             <h3><i class="fas fa-file-arrow-up"></i> File Uploads</h3>
-                            <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: var(--spacing-md);">Upload statements, receipts, and other documents (PDF, CSV, etc.). The AI will attempt to extract relevant deductions.</p>
+                            <p class="upload-description">Upload statements, receipts (PDF, CSV, JPG, PNG). AI will attempt extraction.</p>
                             <div class="file-upload-area">
                                 <label for="bank-statement-upload" class="file-upload-label btn-secondary">
-                                    <i class="fas fa-landmark"></i> Upload Bank Statements
+                                    <i class="fas fa-landmark"></i> <span class="upload-label-text">Bank Statements</span>
                                 </label>
                                 <input type="file" id="bank-statement-upload" multiple accept=".pdf,.csv">
                                 <ul id="uploaded-bank-statements-list" class="upload-list">
-                                    <li class="placeholder">No bank statements uploaded yet.</li>
-                                    <!-- Simulated uploads appear here -->
+                                    <li class="placeholder">No bank statements yet.</li>
                                 </ul>
                             </div>
                              <div class="file-upload-area">
                                 <label for="receipt-upload" class="file-upload-label btn-secondary">
-                                    <i class="fas fa-receipt"></i> Upload Receipts/Other Docs
+                                    <i class="fas fa-receipt"></i> <span class="upload-label-text">Receipts/Other</span>
                                 </label>
                                 <input type="file" id="receipt-upload" multiple accept=".pdf,.jpg,.png,.jpeg,.csv">
                                  <ul id="uploaded-receipts-list" class="upload-list">
-                                     <li class="placeholder">No receipts or other documents uploaded yet.</li>
-                                     <!-- Simulated uploads appear here -->
+                                     <li class="placeholder">No receipts/docs yet.</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="action-buttons">
-                         <button id="analyze-button" class="btn-primary" disabled><i class="fas fa-wand-magic-sparkles"></i> Analyze Data & Find Deductions</button> <!-- Updated Button -->
+                         <button id="analyze-button" class="btn-primary" disabled><i class="fas fa-wand-magic-sparkles"></i> Analyze Data</button> <!-- Simplified text -->
                     </div>
                 </div>
 
                 <!-- ANALYSIS RESULTS VIEW (Initially Hidden) -->
                 <div id="scan-results-view" style="display: none;">
-                    <div class="results-header">
-                         <h2 id="scan-title">Analysis Results</h2> <!-- Updated Title -->
-                         <div class="results-main-actions">
-                             <button id="undo-button" class="btn-accent" disabled><i class="fas fa-rotate-left"></i> Undo (<span id="undo-count">0</span>)</button>
-                             <button id="export-excel-btn" class="btn-secondary"><i class="fas fa-file-excel"></i> Export Excel</button>
-                             <button id="download-sources-btn" class="btn-secondary"><i class="fas fa-file-zipper"></i> Download Source Docs</button> <!-- Updated Button -->
-                         </div>
-                    </div>
+                     <h2 id="scan-title">Analysis Results</h2>
+                     <div class="results-main-actions">
+                         <button id="undo-button" class="btn-accent" disabled><i class="fas fa-rotate-left"></i> <span class="action-text">Undo</span> (<span id="undo-count">0</span>)</button>
+                         <button id="export-excel-btn" class="btn-secondary"><i class="fas fa-file-excel"></i> <span class="action-text">Export</span></button>
+                         <button id="download-sources-btn" class="btn-secondary"><i class="fas fa-file-zipper"></i> <span class="action-text">Sources</span></button>
+                     </div>
+
                      <div class="results-layout">
-                        <!-- Consolidated Details Panel -->
-                        <div class="results-left-panel">
+                        <!-- Table Panel (Primary on mobile) -->
+                        <div class="results-panel results-table-panel">
+                            <div class="table-header">
+                                <h3><i class="fas fa-list-check"></i> Potential Deductions</h3>
+                            </div>
+                            <div class="table-container">
+                                <table id="deductions-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-desc editable-col">Description</th>
+                                            <th class="col-amount editable-col">Amount</th>
+                                            <th class="col-date editable-col">Date</th>
+                                            <th class="col-cat editable-col">Category</th>
+                                            <th class="col-source-type source-type-col">Type</th> <!-- New Column -->
+                                            <th class="col-source-ref">Source Ref</th> <!-- Renamed from Email Key -->
+                                            <th class="col-attach">Attachment</th>
+                                            <th class="col-actions">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Populated by JS -->
+                                         <tr><td colspan="8" class="placeholder">Loading deductions...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Consolidated Details Panel (Secondary on mobile) -->
+                        <div class="results-panel results-details-panel">
                             <div class="details-panel" id="source-details-panel">
                                 <h3 id="detail-header">
                                     <i class="fas fa-info-circle"></i> Details
@@ -120,40 +151,13 @@
                                 </h3>
                                 <div id="detail-content">
                                     <p class="placeholder-text">Select an item from the table to view details.</p>
-                                    <!-- Populated by JS based on selected item type -->
                                 </div>
                                 <div class="detail-attachments-section">
                                     <h4><i class="fas fa-paperclip"></i> Related Files/Attachments</h4>
                                     <ul id="detail-attachments-list">
                                         <li>No item selected</li>
-                                        <!-- Populated by JS -->
                                     </ul>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Table Panel -->
-                        <div class="results-right-panel">
-                            <div class="table-header">
-                                <h3><i class="fas fa-list-check"></i> Potential Deductions</h3> <!-- Updated Title -->
-                            </div>
-                            <div class="table-container">
-                                <table id="deductions-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="editable-col">Description</th>
-                                            <th class="editable-col">Amount</th>
-                                            <th class="editable-col">Date</th>
-                                            <th class="editable-col">Category</th>
-                                            <th class="source-type-col">Source Type</th> <!-- New Column -->
-                                            <th>Source Ref</th> <!-- Renamed from Email Key -->
-                                            <th>Attachment</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Populated by JS -->
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
